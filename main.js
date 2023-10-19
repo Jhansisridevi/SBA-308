@@ -1,6 +1,6 @@
 const CourseInfo = {
   id: 451,
-  name: "Introduction to JavaScript",
+  name: 13, //"Introduction to JavaScript" test case for handling exception 
 };
 
 const AssignmentGroup = {
@@ -28,6 +28,7 @@ const AssignmentGroup = {
       points_possible: 500,
     },
   ],
+  //Adding test case to check exception on course-id
   id: 12346,
   name: "JavaScript Callbacks",
   course_id: 452,
@@ -91,13 +92,32 @@ function validateCourse(assignmentGroup, courseInfo) {
   }
   return true;
 }
-try
-{
+function validateCourseInfo(courseInfo) {
+  if (
+    typeof courseInfo.id !== "number" ||
+    typeof courseInfo.name !== "string"
+  ) {
+    throw new Error("Course Info invalid");
+  }
+}
+try {
+  validateCourseInfo(CourseInfo);
   validateCourse(AssignmentGroup, CourseInfo);
-  console.log("Assignment Group is valid.");
+  console.log("Valid assignment group");
 } catch (error) {
   console.error(error.message);
 }
 
-function getLearnerData(course, ag, submissions) {}
-const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+//  function calculateScores(course, assignmentGroup, submissions) {
+
+// const assignmentScores = {};
+// for(const assignment of assignmentGroup.assignments){
+//     const submission = submissions.find(sub => sub.assignment_id === assignment.id);
+//    console.log(submission);
+//    const dueDate = new Date(assignment.due_at);
+//    const submittedDate = new Date(submission.submission.submitted_at);
+//    console.log(dueDate);
+//    console.log(submittedDate);
+//    }
+// }}
+// calculateScores(CourseInfo,AssignmentGroup,LearnerSubmissions);
