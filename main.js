@@ -1,6 +1,6 @@
 const CourseInfo = {
   id: 451,
-  name: 13, //"Introduction to JavaScript" test case for handling exception 
+  name: "Introduction to JavaScript", // 13 "Introduction to JavaScript" test case for handling exception
 };
 
 const AssignmentGroup = {
@@ -29,18 +29,18 @@ const AssignmentGroup = {
     },
   ],
   //Adding test case to check exception on course-id
-  id: 12346,
-  name: "JavaScript Callbacks",
-  course_id: 452,
-  group_weight: 26,
-  assignments: [
-    {
-      id: 1,
-      name: "Declare a Variable",
-      due_at: "2023-01-25",
-      points_possible: 50,
-    },
-  ],
+  //   id: 12346,
+  //   name: "JavaScript Callbacks",
+  //   course_id: 452,
+  //   group_weight: 26,
+  //   assignments: [
+  //     {
+  //       id: 1,
+  //       name: "Declare a Variable",
+  //       due_at: "2023-01-25",
+  //       points_possible: 50,
+  //     },
+  //   ],
 };
 const LearnerSubmissions = [
   {
@@ -83,41 +83,87 @@ const LearnerSubmissions = [
       score: 140,
     },
   },
+  //   test case for invalid date
+  //   {
+  //     learner_id: 126,
+  //     assignment_id: 1,
+  //     submission: {
+  //       submitted_at: "202301-25",
+  //       score: 49,
+  //     },
+  //   },
 ];
+
+function validateLearnerSubmission(submission, subDate, assignment, dueDate) {
+  if (
+    typeof submission.score !== "number" ||
+    typeof submission.submitted_at !== "string"
+  ) {
+    throw new Error("Invalid submission data.");
+  }
+  console.log(subDate);
+  console.log(dueDate);
+  if (subDate > dueDate) {
+    //console.log("Inside if");
+    //options for validating 10%
+    submission.score -= 0.1 * assignment.points_possible;
+  }
+}
 function validateCourse(assignmentGroup, courseInfo) {
   if (assignmentGroup.course_id !== courseInfo.id) {
     throw new Error(
       `Assignment Group "${assignmentGroup.name}" ID: ${assignmentGroup.id} Course ID: ${assignmentGroup.course_id} does not belong to course "${courseInfo.name}" ID: ${courseInfo.id}`
     );
   }
+  const result = getLearnerData(
+    CourseInfo,
+    AssignmentGroup,
+    LearnerSubmissions
+  );
   return true;
 }
-function validateCourseInfo(courseInfo) {
-  if (
-    typeof courseInfo.id !== "number" ||
-    typeof courseInfo.name !== "string"
-  ) {
-    throw new Error("Course Info invalid");
-  }
-}
 try {
-  validateCourseInfo(CourseInfo);
   validateCourse(AssignmentGroup, CourseInfo);
-  console.log("Valid assignment group");
+  console.log("Assignment Group is valid.");
 } catch (error) {
   console.error(error.message);
 }
+//function calculateScores(course, assignmentGroup, submissions){}
+//console.log(result);
 
-//  function calculateScores(course, assignmentGroup, submissions) {
+function getLearnerData(
+  CourseInfo,
+  AssignmentGroup,
+  LearnerSubmissions,
+  learnerId
+) {
+  try {
+    const assignmentScores = calculateScores(
+      learnerId,
+      AssignmentGroup,
+      LearnerSubmissions
+    );
+    console.log(assignmentScores);
+  } catch (error) {
+    throw new Error(`Error: ${error.message}`);
+  }
+}
+// const learnerId = 132; provided learner id
+//
+try {
+  const result = getLearnerData(
+    CourseInfo,
+    AssignmentGroup,
+    LearnerSubmissions,
+    learnerId
+  );
+  console.log(result);
+} catch (error) {}
 
-// const assignmentScores = {};
-// for(const assignment of assignmentGroup.assignments){
-//     const submission = submissions.find(sub => sub.assignment_id === assignment.id);
-//    console.log(submission);
-//    const dueDate = new Date(assignment.due_at);
-//    const submittedDate = new Date(submission.submission.submitted_at);
-//    console.log(dueDate);
-//    console.log(submittedDate);
-//    }
-// }}
-// calculateScores(CourseInfo,AssignmentGroup,LearnerSubmissions);
+/*
+return {
+    id: learnerId,
+    weightedAvg,
+    ...assignmentScores,
+  };
+  */
