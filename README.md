@@ -57,7 +57,8 @@ The goal is to analyze and transform this data such that the output of the progr
      if an assignment is not yet due, it should not be included in either
      the average or the keyed dictionary of scores
 }
-## Project Screenshots
+## Project Screenshots!
+[Output](output_screenshot.png)
 
 # Clone the repository
 git clone https://github.com/Jhansisridevi/SBA-308.git
